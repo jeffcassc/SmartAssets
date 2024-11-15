@@ -1,0 +1,72 @@
+<app-header [isModal]="true" [title]="product ? 'actualizar producto' : 'Agregar producto'"></app-header>
+
+<ion-content>
+  <form [formGroup]="form" class="ion-padding ion-text-center" (ngSubmit)="submit()" (keypress.enter)="submit()">
+    <!-- Se muetra si existe una imagen-->
+    <ion-avatar *ngIf="form.value.Image">
+      <img [src]="form.value.Image" />
+    </ion-avatar>
+
+    <!-- Se muetra si no existe una imagen-->
+     <ion-icon class="image-icon" *ngIf="!form.value.Image" name="image-outline"></ion-icon>
+
+     <br>
+
+    <!--==== Tomar/Seleccionar una imagen=================-->
+    <ion-button (click)="takeImage()" mode="ios" size="small" shape="round">
+      Tomar/Seleccionar
+    </ion-button>
+
+    <!--   name          -->
+    <app-custom-input autocomplete="name" [control]="form.controls.name" type="text" label="nombre"></app-custom-input>
+
+    <div class="validators" *ngIf="form.controls.name.errors && form.controls.name.touched">
+      <div *ngIf="form.controls.name.errors?.['required']">El Nombre es requerido</div>
+      <div *ngIf="form.controls.name.errors?.['minlenght']">excedio el numero de caracteres, solo 20 caracteres</div>
+    </div>
+    <!--  price         -->
+    <app-custom-input 
+    [control]="form.controls.price" 
+    type="number" 
+    label="precio"
+    (ionInput)="setNumberImputs()"
+    ></app-custom-input>
+
+    <div class="validators" *ngIf="form.controls.price.errors && form.controls.price.touched">
+      <div *ngIf="form.controls.price.errors?.['required']">el campo es requerido</div>
+      <div *ngIf="form.controls.price.errors?.['min']">El precion minimo debe ser 0</div>
+    </div>
+
+    <!--  sold units         -->
+    <app-custom-input [control]="form.controls.contCode" type="text" label="codigo Contabilidad"></app-custom-input>
+
+    <div class="validators" *ngIf="form.controls.contCode.errors && form.controls.contCode.touched">
+      <div *ngIf="form.controls.contCode.errors?.['required']">el campo es requerido</div>
+      
+    </div>
+    <!-- Ubicación -->
+    <app-custom-input [control]="form.controls.location" type="text" label="Ubicación"></app-custom-input>
+
+    <!-- Estado -->
+    <ion-select [formControl]="form.controls.state" placeholder="Estado">
+      <ion-select-option value="prestado">Prestado</ion-select-option>
+      <ion-select-option value="sin prestar">Sin Prestar</ion-select-option>
+    </ion-select>
+
+
+
+
+
+    <ion-button type="submit" mode="ios" class="ion-margin" [disabled]="form.invalid">
+      {{product ? 'actualizar producto' : 'Agregar producto'}}
+      <ion-icon slot="end" name="checkmark-circle-outline"></ion-icon>
+    </ion-button>
+
+
+
+
+
+
+  </form>
+
+</ion-content>
