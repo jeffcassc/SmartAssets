@@ -6,6 +6,8 @@ import { LogoComponent } from './logo/logo.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddUpdateProductComponent } from './add-update-product/add-update-product.component';
+import { RequestLoanComponent } from './request-loan/request-loan.component';
+import { UserModalComponent } from './user-modal/user-modal.component';
 
 
 
@@ -14,7 +16,9 @@ import { AddUpdateProductComponent } from './add-update-product/add-update-produ
     HeaderComponent,
     CustomInputComponent,
     LogoComponent, 
-    AddUpdateProductComponent
+    AddUpdateProductComponent,
+    RequestLoanComponent,
+    UserModalComponent
   ],
   exports: [
     HeaderComponent,

@@ -1,0 +1,36 @@
+<app-header [isModal]="true" title="Solicitar Préstamo"></app-header>
+
+<ion-content>
+  <form [formGroup]="form" class="ion-padding" (ngSubmit)="submit()">
+
+    <ion-item>
+      <ion-label>Producto</ion-label>
+      <ion-text>{{ product.name }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Ubicación</ion-label>
+      <ion-text>{{ product.location }}</ion-text>
+    </ion-item>
+
+    <app-custom-input 
+    [control]="form.controls.userName" 
+    label="Nombre del Solicitante"
+    ></app-custom-input>
+
+    <app-custom-input 
+    [control]="form.controls.area" 
+    label="Área"
+    ></app-custom-input>
+
+    <app-custom-input 
+      [control]="form.controls.duration" 
+      type="number" 
+      label="Duración (en horas)">
+    </app-custom-input>
+
+    <ion-button expand="block" type="submit" [disabled]="form.invalid">
+      Enviar Solicitud
+    </ion-button>
+  </form>
+</ion-content>

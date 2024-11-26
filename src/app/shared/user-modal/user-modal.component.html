@@ -1,0 +1,13 @@
+<app-header [isModal]="true" title="Editar Usuario"></app-header>
+
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <app-custom-input [control]="form.controls.name" label="Nombre"></app-custom-input>
+    <app-custom-input [control]="form.controls.email" label="Correo" type="email"></app-custom-input>
+    <ion-select [formControl]="form.controls.rol" placeholder="Rol">
+      <ion-select-option value="admin">Administrador</ion-select-option>
+      <ion-select-option value="user">Usuario</ion-select-option>
+    </ion-select>
+    <ion-button type="submit" expand="block" [disabled]="form.invalid">Guardar</ion-button>
+  </form>
+</ion-content>
