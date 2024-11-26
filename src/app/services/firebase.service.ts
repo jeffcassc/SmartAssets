@@ -38,12 +38,14 @@ export class FirebaseService {
     return createUserWithEmailAndPassword(getAuth(), user.email, user.password)
   }
 
+
   //==========Actualizar usuario========
 
   updateUser(displayName: string) {
     return updateProfile(getAuth().currentUser, { displayName })
 
   }
+  
 
   //======== enviar email para restablecer contraseña =========
   sendRecoveryEmail(email: string) {
@@ -107,4 +109,6 @@ export class FirebaseService {
   deleteFile(path: string){
     return deleteObject(ref(getStorage(), path))
   }
+
+  
 }
