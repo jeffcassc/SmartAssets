@@ -11,10 +11,16 @@ import { UtilsService } from 'src/app/services/utils.service';
 })
 export class MainPage implements OnInit {
 
-  pages=[
-    {title: 'inicio', url:'/main/home', icon: 'home-outline'},
-    {title: 'perfil', url:'/main/profile', icon: 'person-outline'},
-  ]
+  pages = [
+    { title: 'Inicio', url: '/main/home', icon: 'home-outline' },
+    {title: 'Mis Productos Prestados',url: '/main/borrowed-products',icon: 'archive-outline',condition: () => this.user()?.rol === 'user'},
+    { title: 'Perfil', url: '/main/profile', icon: 'person-outline' },
+    { title: 'Solicitudes', url: '/main/requests', icon: 'list-outline', condition: () => this.user()?.rol === 'admin' },
+    { title: 'Usuarios', url: '/main/users', icon: 'people-outline', condition: () => this.user()?.rol === 'admin' },
+    
+  ];
+  
+  
 
   router = inject(Router);
   currentPath: string='';

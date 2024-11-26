@@ -6,6 +6,8 @@ import { UtilsService } from 'src/app/services/utils.service';
 import { AddUpdateProductComponent } from 'src/app/shared/add-update-product/add-update-product.component';
 
 import { orderBy } from 'firebase/firestore';
+import { RequestLoanComponent } from 'src/app/shared/request-loan/request-loan.component';
+
 
 @Component({
   selector: 'app-home',
@@ -15,7 +17,7 @@ import { orderBy } from 'firebase/firestore';
 export class HomePage implements OnInit {
 
   firebaseSvc = inject(FirebaseService);
-  utilsSVc = inject(UtilsService)
+  utilsSVc = inject(UtilsService);
 
   products: Product[] = [];
   loading: boolean = false;
@@ -48,12 +50,12 @@ export class HomePage implements OnInit {
 
   //=========Obtener productos ===== 
   getProducts() {
-    let path = `users/${this.user().uid}/products`;
+    let path = `products`;
 
     this.loading = true;
 
     let query = (
-      orderBy('contCode', 'desc')
+      orderBy('name', 'desc')
     )
 
     let sub = this.firebaseSvc.getCollectionData(path, query).subscribe({
@@ -65,10 +67,39 @@ export class HomePage implements OnInit {
       }
     })
   }
+  solicitud
 
+  //obtener el producto 3 productos mas solicitados:
+  
+//obtener los produtos que han sido prestados para conteo
   getPrestadoCont(): number{
     return this.products.filter(p => p.state === 'prestado').length
   }
+
+  async requestProduct(product: Product) {
+    const modal = await this.utilsSVc.presentModal({
+      component: RequestLoanComponent,
+      componentProps: { product },
+    });
+  
+    if (modal) {
+      //para contar al cantida de solicitudes que tiene un producto
+      const pathProduct = `products/${product.id}`;
+        await this.firebaseSvc.UpdateDocument(pathProduct, {
+            requestCount: (product.requestCount || 0) + 1
+        });
+      // Aquí puedes agregar lógica adicional después de enviar la solicitud
+      this.getProducts();
+    }
+  }
+
+  //dar los 3 productos mas solicitados
+  getTopRequestedProducts(): Product[] {
+    return [...this.products]
+        .sort((a, b) => (b.requestCount || 0) - (a.requestCount || 0)) // Ordenar por mayor cantidad de solicitudes
+        .slice(0, 3); // Tomar los 3 primeros
+  }
+
 
   //======== agrergar o actualizar profucto ========
   async addUpdateProduct(product?: Product) {
@@ -106,7 +137,7 @@ export class HomePage implements OnInit {
   async deleteProduct(product: Product) {
 
 
-    let path = `users/${this.user().uid}/products/${product.id}`
+    let path = `products/${product.id}`
     //para que se muetre la rueda de carga
     const loading = await this.utilsSVc.loading();
     await loading.present();

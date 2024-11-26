@@ -34,7 +34,9 @@ export class AddUpdateProductComponent implements OnInit {
     price: new FormControl(null, [Validators.required, Validators.min(0)]),
     contCode: new FormControl(null, [Validators.required, Validators.min(0)]),
     location: new FormControl('', Validators.required),  // Campo nuevo
-    state: new FormControl('', Validators.required) 
+    state: new FormControl('', Validators.required) ,
+    borrowedBy: new FormControl('nadie')
+    
 
   })
 
@@ -62,7 +64,7 @@ export class AddUpdateProductComponent implements OnInit {
   }
   //=====================crear producto ======================
   async createProduct() {
-    let path = `users/${this.user.uid}/products`
+    let path = `products`
     //para que se muetre la rueda de carga
     const loading = await this.utilsSvc.loading();
     await loading.present();
@@ -108,7 +110,7 @@ export class AddUpdateProductComponent implements OnInit {
   async updateProduct() {
 
 
-    let path = `users/${this.user.uid}/products/${this.product.id}`
+    let path = `products/${this.product.id}`
     //para que se muetre la rueda de carga
     const loading = await this.utilsSvc.loading();
     await loading.present();

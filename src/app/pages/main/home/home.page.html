@@ -6,20 +6,53 @@
     Click me
   </ion-button>
   -->
-  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" >
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-card mode="ios" color="secondary" class="d-flex-center ion-text-center" *ngIf="!loading && products.length " >
-    <div>
-      <h5>{{products.length}}</h5>
-      <p>Productos</p>
-    </div>
-    <div>
-    <h5>{{getPrestadoCont()}}</h5>
-    <p>Cantidad de productos prestados</p>
-    </div>
-  </ion-card>
+  <div class="cards-container">
+
+    <!--para mostras los 3 productos mas solicitados-->
+    <ion-card mode="ios" class="d-flex-center ion-text-center"
+      *ngIf="!loading && getTopRequestedProducts().length &&  user()?.rol === 'admin'">
+      <h2>Productos más solicitados</h2>
+      <ion-card-content>
+
+        <ion-list>
+
+          <ion-item *ngFor="let product of getTopRequestedProducts()">
+
+            <ion-avatar slot="start">
+              <img [src]="product.Image" />
+            </ion-avatar>
+
+            <h2>{{ product.name }}</h2>
+            <p>Solicitudes: {{ product.requestCount || 0 }}</p>
+
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card mode="ios" class="d-flex-center ion-text-center" *ngIf="!loading && products.length">
+      <div>
+        <h5>{{products.length}}</h5>
+        <p>Productos existentes</p>
+      </div>
+    </ion-card>
+
+    <ion-card mode="ios" class="d-flex-center ion-text-center" *ngIf="!loading && products.length">
+      <div>
+        <h5>{{getPrestadoCont()}}</h5>
+        <p>Cantidad de productos prestados</p>
+      </div>
+    </ion-card>
+
+
+
+
+  </div>
+
 
   <!--=======producto=======-->
   <ion-list *ngIf="!loading">
@@ -28,12 +61,12 @@
         <ion-avatar slot="start">
           <img [src]="p.Image" />
         </ion-avatar>
-        
+
         <ion-label>
           <div class="name">{{p.name}}</div>
           <div class="data">
-            <strong>Ubicacion:</strong> {{p.location}} <br>
-            <strong>codigo Contabilidad:</strong> {{p.contCode}}
+            <strong>Precio:</strong> {{p.price | currency: 'USD'}} <br>
+            <strong>prestado a:</strong> {{p.borrowedBy}}
           </div>
 
           <ion-chip [color]="p.state == 'prestado' ? 'danger' : 'success'" mode="ios" outline="true">
@@ -41,9 +74,19 @@
           </ion-chip>
 
         </ion-label>
+
+        <!--aqui se tiene que hacer la funcionalida para que si depliegue el modal para hacer la solicitud
+            de esta manera (click)="requestProduct(p)"
+        -->
+        <ion-button *ngIf="user()?.rol === 'user'" expand="block" shape="round" [disabled]="p.state === 'prestado'"
+          (click)="requestProduct(p)">
+          Solicitar producto
+        </ion-button>
+
+
       </ion-item>
       <!--Opciones-->
-      <ion-item-options>
+      <ion-item-options *ngIf="user()?.rol === 'admin'">
         <!--editar-->
         <ion-item-option (click)="addUpdateProduct(p)">
           <ion-icon class="option-btn" name="create-outline"></ion-icon>
@@ -54,6 +97,8 @@
         </ion-item-option>
 
       </ion-item-options>
+
+
 
 
     </ion-item-sliding>
@@ -83,8 +128,8 @@
     <h3>no hay productos disponibles</h3>
   </div>
 
-  <!--nuevo producto-->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <!--nuevo producto solo se muestra si el rol es admin-->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="user()?.rol === 'admin'">
     <ion-fab-button (click)="addUpdateProduct()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

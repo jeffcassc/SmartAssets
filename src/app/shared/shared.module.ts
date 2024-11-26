@@ -11,6 +11,8 @@ import { UserModalComponent } from './user-modal/user-modal.component';
 
 
 
+
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -25,7 +27,9 @@ import { UserModalComponent } from './user-modal/user-modal.component';
     CustomInputComponent,
     LogoComponent,
     ReactiveFormsModule, 
-    AddUpdateProductComponent
+    AddUpdateProductComponent,
+    RequestLoanComponent,
+    UserModalComponent
   ],
   imports: [
     CommonModule,

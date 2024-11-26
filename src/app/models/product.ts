@@ -6,4 +6,6 @@ export interface Product {
     id: string,
     location: string,
     state: string
+    borrowedBy: string;
+    requestCount: number
 }

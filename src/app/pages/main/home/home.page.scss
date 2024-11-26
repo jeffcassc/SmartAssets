@@ -1,8 +1,23 @@
-ion-card{
-    gap: 100px;
+.cards-container {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los items se acomoden en varias filas */
+    gap: 20px; /* Espacio entre las tarjetas */
+    
+  }
+  
+  ion-card {
+    flex: 1 1 15%; /* Cada tarjeta ocupará el 45% del contenedor y se ajustará */
     padding: 20px 0;
     border-radius: 15px;
-}
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+    margin: 2px;
+    background: #ffffff ;
+    
+  }
 ion-content{
     --padding-bottom: 70px;
+}
+ion-avatar img {
+    border-radius: 50%;
+    object-fit: cover;
 }

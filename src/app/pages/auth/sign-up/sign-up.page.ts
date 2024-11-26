@@ -24,7 +24,8 @@ export class SignUpPage implements OnInit  {
     uid: new FormControl(''),
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required]),
-    name: new FormControl('', [Validators.required, Validators.min(20)])
+    name: new FormControl('', [Validators.required, Validators.min(20)]),
+    rol: new FormControl('user') // Aquí defines el valor por defecto.
   })
 
   async submit(){
