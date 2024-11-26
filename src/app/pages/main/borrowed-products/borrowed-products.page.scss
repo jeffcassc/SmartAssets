@@ -1,0 +1,26 @@
+ion-avatar {
+    width: 80px;
+    height: 80px;
+  }
+  
+  ion-avatar img {
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .text-danger {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .empty {
+    text-align: center;
+    margin-top: 50px;
+    color: gray;
+  
+    ion-icon {
+      font-size: 100px;
+      opacity: 0.3;
+    }
+  }
+  
